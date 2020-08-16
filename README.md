@@ -5,8 +5,9 @@ Note this was developed for use on a raspberry pi.
 
 Examples of how to use are in example.go which does some simple tasks such as displaying numbers digits at specific positions, displaying a number up to 9999, letters, particular segments and setting the brightness.
 
-eg. (assuming you're on a pi and device addr on i2c bus is 0x70)
-```go mod init main
+eg. (assuming device addr on i2c bus is 0x70)
+```
+go mod init main
 go run example.go
 ```
 
