@@ -1,0 +1,81 @@
+package sevensegment
+
+import (
+	"fmt"
+	"log"
+  "periph.io/x/periph/conn/i2c"
+  "periph.io/x/periph/host"
+  "periph.io/x/periph/conn/i2c/i2creg"
+)
+
+
+// Sevensegment with a buffer to hold desired 
+// segment state
+type SevenSegment struct {
+  d *i2c.Dev
+  Buffer [10]uint16
+}
+
+func NewSevenSegment(addr byte) (ss *SevenSegment) {
+  ss = new(SevenSegment)
+  host.Init()
+  if b,err := i2creg.Open(""); err != nil {
+    log.Fatal(err)
+    return
+  } else {
+    ss.d = &i2c.Dev{Addr: uint16(addr), Bus: b}
+    fmt.Println("bus: ", b, "   addr: ", addr)
+    fmt.Println("Turning on display.")
+    ss.DisplayOn()
+  }
+  return
+}
+
+// Write raw data to bus, useful for setting up
+// the seven segment
+func (ss *SevenSegment) WriteRaw(data []byte){
+  read := make([]byte, 1)
+  if err := ss.d.Tx(data, read); err != nil {
+    log.Fatal(err)
+  } else {
+  }
+}
+
+// Set brightness from 0-15
+func (ss *SevenSegment) SetBrightness(brightness int) {
+//Command for brightness is 0xe + "dimming" level 0x0-0xf 
+  cmd := []byte{0xe0+byte(brightness)}
+  ss.WriteRaw(cmd)
+}
+
+// Command to turn on display is 0x81
+func (ss *SevenSegment) DisplayOn() {
+  cmd := []byte{0x81}
+  ss.WriteRaw(cmd)
+}
+
+//Write out my buffer, this will actually display segments
+func (ss *SevenSegment) WriteData() {
+  read := make([]byte, 1)
+  data := make([]byte, len(ss.Buffer))
+  i := 0
+	for _, item := range ss.Buffer {
+    data[i] = byte(item)
+    i++
+	}
+  if err := ss.d.Tx(data, read); err != nil {
+    log.Fatal(err)
+  } else {
+    //fmt.Println("Buffer:", ss.Buffer, "Wrote data: ", data)
+  }
+}
+
+// Clear all segments
+func (ss *SevenSegment) Clear() {
+  for i,_ := range ss.Buffer {
+    ss.Buffer[i] = uint16(0)
+  }
+  ss.WriteData()
+}
+
+
