@@ -27,6 +27,8 @@ func NewSevenSegment(addr byte) (ss *SevenSegment) {
     fmt.Println("bus: ", b, "   addr: ", addr)
     fmt.Println("Turning on display.")
     ss.DisplayOn()
+    ss.OscillatorOn()
+    ss.SetBrightness(4)
   }
   return
 }
@@ -51,6 +53,12 @@ func (ss *SevenSegment) SetBrightness(brightness int) {
 // Command to turn on display is 0x81
 func (ss *SevenSegment) DisplayOn() {
   cmd := []byte{0x81}
+  ss.WriteRaw(cmd)
+}
+
+// Command to turn on oscillator
+func (ss *SevenSegment) OscillatorOn() {
+  cmd := []byte{0x21}
   ss.WriteRaw(cmd)
 }
 
