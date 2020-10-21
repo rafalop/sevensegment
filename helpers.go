@@ -1,4 +1,4 @@
-package main
+package sevensegment
 // Funcs that help convert to set up the correct bytes used for commands or 
 // referencing HT16K33 memory/digits
 
