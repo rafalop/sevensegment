@@ -1,4 +1,4 @@
-package sevensegment
+package main
 // Funcs that help convert to set up the correct bytes used for commands or 
 // referencing HT16K33 memory/digits
 
@@ -65,7 +65,7 @@ func NumToArray(number int) []int {
 // Returns 2 byt val representing the data required to turn segments on for supplied 'digit' similar to numbertable at:
 // https://github.com/adafruit/Adafruit_LED_Backpack/blob/master/Adafruit_LEDBackpack.cpp
 func (ss *SevenSegment) IntToSs(digit int) (uint16) {
-  ss_vals := []uint16{63,6,91,79,102,109,124,7,127,103}
+  ss_vals := []uint16{63,6,91,79,102,109,125,7,127,103}
   if digit == -10000{
     return 0
   } else if digit < 0 {
