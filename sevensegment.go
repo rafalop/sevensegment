@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
   "periph.io/x/periph/conn/i2c"
+  "periph.io/x/periph/conn/physic"
   "periph.io/x/periph/host"
   "periph.io/x/periph/conn/i2c/i2creg"
 )
@@ -23,6 +24,10 @@ func NewSevenSegment(addr byte) (ss *SevenSegment) {
     log.Fatal(err)
     return
   } else {
+    if b.SetSpeed(100*physic.KiloHertz); err != nil {
+      log.Fatal(err)
+      return
+    }
     ss.d = &i2c.Dev{Addr: uint16(addr), Bus: b}
     fmt.Println("bus: ", b, "   addr: ", addr)
     fmt.Println("Turning on display.")
@@ -71,10 +76,14 @@ func (ss *SevenSegment) WriteData() {
     data[i] = byte(item)
     i++
 	}
-  if err := ss.d.Tx(data, read); err != nil {
-    log.Fatal(err)
-  } else {
-    //fmt.Println("Buffer:", ss.Buffer, "Wrote data: ", data)
+  //We try writing the data a few times
+  for j := 0 ; j < 3 ; j++ {
+    if err := ss.d.Tx(data, read); err != nil {
+      log.Println("Error writing data, trying again...")
+    } else {
+      break
+      //fmt.Println("Buffer:", ss.Buffer, "Wrote data: ", data)
+    }
   }
 }
 
