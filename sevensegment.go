@@ -29,8 +29,6 @@ func NewSevenSegment(addr byte) (ss *SevenSegment) {
       return
     }
     ss.d = &i2c.Dev{Addr: uint16(addr), Bus: b}
-    fmt.Println("bus: ", b, "   addr: ", addr)
-    fmt.Println("Turning on display.")
     ss.OscillatorOn()
     ss.DisplayOn()
     ss.SetBrightness(4)
