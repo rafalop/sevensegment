@@ -1,7 +1,6 @@
 package sevensegment
 
 import (
-	"fmt"
 	"log"
 	"periph.io/x/periph/conn/i2c"
 	"periph.io/x/periph/conn/i2c/i2creg"
