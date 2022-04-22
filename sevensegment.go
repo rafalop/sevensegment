@@ -1,11 +1,11 @@
 package sevensegment
 
 import (
-  "log"
-  "periph.io/x/periph/conn/i2c"
-  "periph.io/x/periph/conn/physic"
-  "periph.io/x/periph/host"
-  "periph.io/x/periph/conn/i2c/i2creg"
+	"log"
+	"periph.io/x/periph/conn/i2c"
+	"periph.io/x/periph/conn/i2c/i2creg"
+	"periph.io/x/periph/conn/physic"
+	"periph.io/x/periph/host"
 )
 
 // Sevensegment with a buffer to hold desired
