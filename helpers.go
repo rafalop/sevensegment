@@ -1,5 +1,14 @@
 package sevensegment
 
+// Dot LED indicators on Segment 4
+const (
+	IndMidTop   = iota
+	IndMidBtt   = iota
+	IndLeftTop  = iota
+	IndLeftBtt  = iota
+	IndRightTop = iota
+)
+
 // Funcs that help convert to set up the correct bytes used for commands or
 // referencing HT16K33 memory/digits
 
