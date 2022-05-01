@@ -2,9 +2,9 @@ package sevensegment
 
 import (
 	"log"
+
 	"periph.io/x/periph/conn/i2c"
 	"periph.io/x/periph/conn/i2c/i2creg"
-	"periph.io/x/periph/conn/physic"
 	"periph.io/x/periph/host"
 )
 
@@ -22,10 +22,6 @@ func NewSevenSegment(addr byte) (ss *SevenSegment) {
 		log.Fatal(err)
 		return
 	} else {
-		if b.SetSpeed(100 * physic.KiloHertz); err != nil {
-			log.Fatal(err)
-			return
-		}
 		ss.d = &i2c.Dev{Addr: uint16(addr), Bus: b}
 		ss.OscillatorOn()
 		ss.DisplayOn()
